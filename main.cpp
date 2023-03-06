@@ -59,7 +59,7 @@ ServerClient::ServerClient(char **opc,char **ip) {
 int ServerClient::client() {
 
   /*reseptores y transmisores de informacion*/
-  char *buffer_tx,*buffer_rx;
+  char buffer_tx[4096],buffer_rx[50000];
 
   /*definicion del socket*/
   int sockdf;
@@ -101,6 +101,7 @@ int ServerClient::client() {
   do {
 
     cout << "~~~[CLIENT]~~~"<< endl << "send a comand ==>>" ;
+    cin.getline(buffer_tx,1024);
     
     write(sockdf,buffer_tx,sizeof(buffer_tx));
     read(sockdf,buffer_rx,sizeof(buffer_rx));
@@ -127,7 +128,7 @@ int ServerClient::server() {
   /*tamaño de los mensajes
     de entrada y salida*/
   int len_rx, len_tx = 0;
-  char *buffer_tx,*buffer_rx;
+  char buffer_tx[50000],buffer_rx[4096];
 
   /*creacion de los socket*/
   sockfd = socket(AF_INET,SOCK_STREAM,0);
@@ -206,6 +207,10 @@ int ServerClient::server() {
 	  break;
 	} else {
 
+	  FILE *archivoss = stdout;
+
+	  fscanf(archivoss,"%s",buffer_tx); 
+	  
 	  write(connfd,buffer_tx,strlen(buffer_tx));
 
 	  cout << "$$$[SERVER]$$$" << endl << buffer_rx << endl << endl;
