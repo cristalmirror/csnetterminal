@@ -23,5 +23,5 @@ For install csnetteminal only need open with root permissions this file:
 
 end paste the executable file
 
-OPERTIVE SYSTEMS:
+OPERATIVE SYSTEMS:
 ***Linux***
