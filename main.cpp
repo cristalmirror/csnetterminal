@@ -1,5 +1,5 @@
-#include<iostream>
-#include<string>
+#include <iostream>
+#include <string>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,6 +12,8 @@
 #include <errno.h>
 #include <arpa/inet.h>
 #include <stdbool.h>
+#include <fstream>
+
 /*numero de puerto y de
   clientes maximos conectados*/
 #define PORT 8080
@@ -74,7 +76,7 @@ int ServerClient::client() {
     return -1;
   } else {
 
-    cout << "***[CLIENT]***"<< endl <<" socket client are created " << endl << endl;
+    cout << "\x1b[31m***[CLIENT]***"<< endl <<" socket client are created " << endl << endl;
 
   }
 
@@ -160,7 +162,7 @@ int ServerClient::server() {
     
   } else {
 
-    cout << "+++[SERVER]+++" << endl << "socket binded are created " << endl << endl;
+    cout << "\x1b[32m+++[SERVER]+++" << endl << "socket binded are created " << endl << endl;
 
   }
 
@@ -193,7 +195,8 @@ int ServerClient::server() {
       
       /*lee los datos que envia el cliente y ejecuta los comandos*/
       while (true) {
-	
+
+	/*execute the comand allocated in the buffer_rx*/
 	len_rx = read(connfd,buffer_rx,sizeof(buffer_rx));
 	system(buffer_rx);
 	if (len_rx == -1) {
@@ -206,24 +209,40 @@ int ServerClient::server() {
 	  close(connfd);
 	  break;
 	} else {
-
-	  FILE *archivoss = stdout;
-
-	  fscanf(archivoss,"%s",buffer_tx); 
 	  
+
+	  char *p;
+
+	  /*load the buffer_tx with the content of de stdout*/
+
+	  FILE *pf;
+
+	  pf = fopen("/dev/stdout", "r");
+	  if (pf == NULL) {
+
+	    perror("---[SERVER ERROR]--- \nopen file");
+	    
+	  } else {
+
+	    fgets(buffer_tx,50000,pf);
+
+	    fclose(pf);
+
+	  }
+	  /* transmition of the text in the system */
 	  write(connfd,buffer_tx,strlen(buffer_tx));
 
 	  cout << "$$$[SERVER]$$$" << endl << buffer_rx << endl << endl;
 
 	  
 	}
+	
       }
 
     }
 
   }
-  
-  
+   
 }
 
 void ServerClient::printer() {
