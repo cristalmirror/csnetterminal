@@ -251,9 +251,9 @@ class ClientServerTCP {
 	    }
 
 	}
-
+	/*close the connection system*/
 	public void close_connection() {
-
+	    /*Error comprovation*/
 	    try {
 
 		input.close();
@@ -304,7 +304,7 @@ class ClientServerTCP {
 
 	case "-s": Server obj = new Server(PORT); break;
 	case "-c": Client obj2 = new Client(HOST,PORT); break;
-	default: System.out.println("***ERORRO^^^\ncann't doing your option");
+	default: System.out.println("***ERORR^^^\ncann't doing your option");
 	}
     }
 }
