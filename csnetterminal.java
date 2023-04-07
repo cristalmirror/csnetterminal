@@ -1,11 +1,10 @@
+//this is the impotations headers
 import java.net.*;
 import java.io.*;
 import java.util.Scanner;
-
-
 //main class
 public class csnetterminal {
-
+      
     //main method
     public static void main(String[] args) {
 
@@ -166,7 +165,7 @@ class ClientServerTCP {
 	private Socket socket;
 	private ServerSocket serverSocket;
 	private DataInputStream input = null;
-	private DataOutputStream output =null;
+	private DataOutputStream output = null;
 	Scanner esca = new Scanner(System.in);
 	final String COMAND_FINISH = "salir()";
 
@@ -207,7 +206,7 @@ class ClientServerTCP {
 	/*resept data from*/
 	public void data_resept() {
 	    String st ="";
-
+	    Process theProcess = null;
 	    /*Error comprovation*/
 	    try {
 		/*loop to retain connection*/
@@ -215,7 +214,8 @@ class ClientServerTCP {
 		    //convetion data type
 		    st = (String) input.readUTF();
 		    System.out.println(">>>CLIENT>>>\n" + st);
-		    System.out.println("!!![SERVER]!!!\n\n");
+		    System.out.println(Runtime.getRuntime().exec(st));
+		    
 		} while(!st.equals(COMAND_FINISH));
 	    } catch (Throwable e) {
 		System.out.println("Error data resept" + e.getMessage());
@@ -251,9 +251,9 @@ class ClientServerTCP {
 	    }
 
 	}
-	/*close the connection system*/
+
 	public void close_connection() {
-	    /*Error comprovation*/
+
 	    try {
 
 		input.close();
@@ -304,7 +304,7 @@ class ClientServerTCP {
 
 	case "-s": Server obj = new Server(PORT); break;
 	case "-c": Client obj2 = new Client(HOST,PORT); break;
-	default: System.out.println("***ERORR^^^\ncann't doing your option");
+	default: System.out.println("***ERORRO^^^\ncann't doing your option");
 	}
     }
 }
